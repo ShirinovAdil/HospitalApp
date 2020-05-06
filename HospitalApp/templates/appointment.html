@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Doctor's Appointment {% endblock title %}
+
+
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-3">
+                <h1 class="text-center" id="appointment-header">Doctor's Appointment</h1>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% load widget_tweaks %}
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                    {% endfor %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            {{ field.label_tag }}
+
+                            {% if form.is_bound %}
+                                {% if field.errors %}
+                                    {% render_field field class="form-control is-invalid" %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+                                {% elif bError %}
+                                    {% if field.name == "birthdate" %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                    {% else %}
+                                        {% render_field field class="form-control is-valid" %}
+                                    {% endif %}
+
+                                {% elif rError %}
+                                    {% if field.name == "registration_date" %}
+                                        {% render_field field class="form-control is-invalid" %}
+                                    {% else %}
+                                        {% render_field field class="form-control is-valid" %}
+                                    {% endif %}
+                                {% else %}
+                                    {% render_field field class="form-control is-valid" %}
+                                {% endif %}
+                            {% else %}
+                                {% render_field field class="form-control" %}
+                            {% endif %}
+
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock content %}

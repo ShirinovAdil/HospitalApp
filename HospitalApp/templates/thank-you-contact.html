@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+Thank you!
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <h1 class="display-3">Thank You!</h1>
+  <p class="lead">Your message was sent to our administration successfully. Soon you will receive an answer via email</p>
+  <hr>
+  <p class="lead">
+    <a class="btn btn-primary btn-sm" href="{% url 'homepage' %}" role="button">Go to homepage</a>
+  </p>
+</div>
+
+{% endblock content %}

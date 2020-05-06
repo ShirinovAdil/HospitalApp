@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ hospital.name }}
+{% endblock title %}
+
+{% block content %}
+    <div class="container" style="margin-top: 10%;">
+        <div class="row">
+
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <small><b>Contact: </b>{{ hospital.contact }}</small>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" style="color:black;">{{ hospital.name }}</h5>
+                        <p class="card-text" >{{ hospital.description }}</p>
+                        <small style="color:#454a46;"><b>Address: </b> {{ hospital.address }}</small>
+                    </div>
+                </div>
+
+
+                <!-- Initial comment -->
+                <form method="post" id="comment_form">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col">
+                                {{ feedback_form }}
+                                <button id="submit-button" type="submit" class="btn btn-primary mt-1">Leave feedback
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+
+            <!-- Comment section -->
+            <div id="comment-section" class="col-md-5 offset-2">
+                <h3 class="text-center" style="color:black;">Feedbacks:</h3>
+
+                <div id="comments" class="mt-3">
+                    <!-- Parse comments from db -->
+                    {% for feedback in feedbacks %}
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">{{ feedback.text }}</p>
+                            </div>
+                        </div>
+                        <br>
+                    {% endfor %}
+                    {% if feedbacks.has_other_pages %}
+                        <ul class="pagination pagination-lg">
+                            {% if feedbacks.has_previous %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ feedbacks.previous_page_number }}">&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                            {% endif %}
+                            {% for i in feedbacks.paginator.page_range %}
+                                {% if feedbacks.number == i %}
+                                    <li class="page-item active"><span class="page-link">{{ i }} <span
+                                            class="sr-only">(current)</span></span></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if feedbacks.has_next %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ feedbacks.next_page_number }}">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- end comment -->
+
+
+        </div>
+    </div>
+
+
+    <script>
+        var formData = document.getElementById("comment_form");
+        var hospital_id = "{{ hospital.id|escapejs }}";
+        var feedbackSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/' + 'details/' + hospital_id);
+
+        feedbackSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            var text = data['text']
+            createFeedback(text);
+        };
+
+        feedbackSocket.onopen = function (e) {
+            console.log('Connected!');
+            document.getElementById("submit-button").addEventListener("click", function (event) {
+                event.preventDefault();
+                var messageInputDom = document.querySelector('#id_text');
+                var text = messageInputDom.value;
+                feedbackSocket.send(JSON.stringify({
+                    'text': text,
+                    'hospital_id': hospital_id
+                }));
+                formData.reset();
+            });
+        };
+
+        feedbackSocket.onerror = function (error) {
+            console.log(`[error] ${error.message}`);
+        };
+
+        feedbackSocket.onclose = function (event) {
+            if (event.wasClean) {
+                console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            } else {
+                console.log('[close] Connection died');
+            }
+        };
+
+        function createFeedback(text) {
+            // create comment box on client side
+            var card = document.createElement('div');
+            card.className = "card";
+
+            var card_body = document.createElement('div');
+            card_body.className = 'card-body';
+
+            var card_text = document.createElement('p');
+            card_text.className = 'card-text';
+            card_text.innerText = text;
+            card_body.appendChild(card_text);
+            card.appendChild(card_body);
+            document.getElementById('comments').appendChild(card);
+        }
+    </script>
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    About us
+{% endblock title %}
+{% load static %}
+{% block content %}
+
+    <div class="about-section paddingTB60 gray-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 col-sm-6">
+                    <div class="about-title clearfix">
+                        <h1>About <span>Uganda Hospital</span></h1>
+                        <h3>Hospital registration system </h3>
+                        <p class="about-paddingB">We are one of the biggest hospital registration services which provide
+                        quick and comfortable access to all the hospitals of our country.
+                        Daily we get tons of requests and feedbacks from our users.Don't hesitate to contact with us anytime </p>
+                        <div class="about-icons">
+                            <ul>
+                                <li><a href="javascript:void(0)"><i id="social-fb"
+                                                                           class="fa fa-facebook-square fa-3x social"></i></a>
+                                </li>
+                                <li><a href="javascript:void(0)"><i id="social-tw"
+                                                                      class="fa fa-twitter-square fa-3x social"></i></a>
+                                </li>
+                                <li><a href="javascript:void(0)"><i id="social-gp"
+                                                                          class="fa fa-google-plus-square fa-3x social"></i></a>
+                                </li>
+                                <li><a href="javascript:void(0)"><i id="social-em"
+                                                                            class="fa fa-envelope-square fa-3x social"></i></a>
+                                </li>
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 col-sm-6">
+                    <div class="about-img">
+                        <img src="{% static 'img/banner/about1.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

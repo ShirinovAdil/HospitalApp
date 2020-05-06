@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Thank you for registration {% endblock title %}
+
+{% block content %}
+
+<div class="jumbotron text-center">
+  <h1 class="display-3">Thank You!</h1>
+  <p class="lead"><strong>Soon</strong> you will receive an email or a call about exact time of your appointment.</p>
+  <hr>
+  <p>
+    Having trouble? <a href="{% url 'contact' %}">Contact us</a>
+  </p>
+  <p class="lead">
+    <a class="btn btn-primary btn-sm" href="{% url 'homepage' %}" role="button">Go to homepage</a>
+  </p>
+</div>
+
+{% endblock content %}
