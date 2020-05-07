@@ -9,8 +9,7 @@ Project for the Modern Programming Language course
 ## Installing
 
  Create python virtual environment and run:
-
-pip3 install -r requirements.txt
+     pip3 install -r requirements.txt
 
 ## Make initial database migrations
 
