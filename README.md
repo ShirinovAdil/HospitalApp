@@ -9,14 +9,15 @@ Project for the Modern Programming Language course
 ## Installing
 
  Create python virtual environment and run:
+ 
      pip3 install -r requirements.txt
 
 ## Make initial database migrations
 
- python3 manage.py check 
+     python3 manage.py check 
 
- python3 manage.py migrate 
+    python3 manage.py migrate 
 
 ## Run the server by writing:
 
- python3 manage.py runserver 
+    python3 manage.py runserver 
