@@ -20,19 +20,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xGke3RCHkiC5x97gzptab6!em+oi_w55rs@z%(1'
+SECRET_KEY = 'lol3abcd#bg#7c4o@^vj@sp4v_9zptab6!em+oi_w55rs@z%(1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
-MY_EMAIL_HOST = "your email"
-MY_EMAIL_PWD = "your password"
+
 
 # Application definition
 
 INSTALLED_APPS = [
     'hospital_app',
+    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,6 +131,8 @@ STATICFILES_DIRS = [
 
 
 # mail sender
+MY_EMAIL_HOST = "loginhere"
+MY_EMAIL_PWD = "passwordhere"
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = MY_EMAIL_HOST

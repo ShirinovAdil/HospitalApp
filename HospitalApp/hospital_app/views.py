@@ -7,6 +7,7 @@ from .forms import FeedbackForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 import random
 # Create your views here.
 
@@ -15,7 +16,7 @@ def email(name, surname, email, date, doctor):
     import datetime
     subject = 'Uganda Hospital Appointment'
     message = f"Thank you {name} {surname} for choosing us for your {doctor} appointment. "
-    message += f"Doctor will be waiting for you on date of: {date} at {random.randrange(9, 18)}:{random.randrange(10,60)} "
+    message += f"Doctor will be waiting for you on date of: {date} at {random.randrange(9, 18)}:{random.randrange(10,60)}"
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [email]
     send_mail(subject, message, email_from, recipient_list)
@@ -25,6 +26,7 @@ def homepage(request):
     return render(request, "index.html")
 
 
+@login_required(redirect_field_name='login')
 def make_appointment(request):
     """Renders form to make an appointment"""
     if request.method == "POST":
@@ -52,7 +54,10 @@ def make_appointment(request):
             return render(request, 'thank-you.html')
         return render(request, "appointment.html", {"form": form})
     else:
-        form = DoctorRegistrationForm()
+        data = {
+            "email": request.user.email,
+        }
+        form = DoctorRegistrationForm(initial=data)
         return render(request, "appointment.html", {"form": form})
 
 

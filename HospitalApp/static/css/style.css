@@ -52,9 +52,9 @@ button:focus {
     margin-top: 25px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1450px) {
     .container {
-        max-width: 1170px;
+        max-width: 1350px;
     }
 }
 
