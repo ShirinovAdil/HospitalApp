@@ -13,7 +13,7 @@ Project for the Modern Programming Language course
      pip3 install -r requirements.txt
 
 ## Setup
-   To make proper use of mailing system, set up SMTP credentials
+   To make proper use of mailing system, set up email credentials in `settings.py`
      
     MY_EMAIL_HOST = "yourlogin"
     MY_EMAIL_PWD = "yourpass"
